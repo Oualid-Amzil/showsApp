@@ -1,20 +1,16 @@
-import { useSelector } from "react-redux";
-
+import { Platform } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { Ionicons } from "react-native-vector-icons";
 
 import CustomHeaderButton from "../component/CustomHeaderButton";
 import PersonalScreen from "../screens/PersonalScreen";
-import MovieDetailsScreen from "../screens/MovieDetailsScreen";
-import TvDetailsScreen from "../screens/TvDetailsScreen";
 
 import Colors from "../constant/Colors";
 
 const defaultStyling = {
   headerStyle: {
-    backgroundColor: Colors.primaryColor,
+    backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
   },
   headerTitleStyle: {
     fontFamily: "ptserif-bold",
@@ -22,16 +18,12 @@ const defaultStyling = {
   },
 };
 
-const PersonalMoviesScreen = ({ navigation }) => {
-  const movies = useSelector((state) => state.favorites.movies);
-
-  return <PersonalScreen data={movies} navigation={navigation} />;
+const PersonalMoviesScreen = () => {
+  return <PersonalScreen name="favoriteMovie" />;
 };
 
-const PersonalTvScreen = ({ navigation }) => {
-  const series = useSelector((state) => state.favorites.series);
-
-  return <PersonalScreen data={series} navigation={navigation} />;
+const PersonalTvScreen = () => {
+  return <PersonalScreen name="favoriteTv" />;
 };
 
 const MovieStack = createNativeStackNavigator();
@@ -57,7 +49,6 @@ const MoviesNavigator = () => {
           ),
         })}
       />
-      <MovieStack.Screen name="details" component={MovieDetailsScreen} />
     </MovieStack.Navigator>
   );
 };
@@ -85,7 +76,6 @@ const TvNavigator = () => {
           ),
         })}
       />
-      <TvStack.Screen name="details" component={TvDetailsScreen} />
     </TvStack.Navigator>
   );
 };

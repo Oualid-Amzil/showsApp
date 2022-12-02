@@ -1,8 +1,7 @@
-import { useSelector } from "react-redux";
+import { Platform } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { Ionicons } from "react-native-vector-icons";
 
 import CustomHeaderButton from "../component/CustomHeaderButton";
 import PersonalScreen from "../screens/PersonalScreen";
@@ -13,7 +12,7 @@ import Colors from "../constant/Colors";
 
 const defaultStyling = {
   headerStyle: {
-    backgroundColor: Colors.primaryColor,
+    backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
   },
   headerTitleStyle: {
     fontFamily: "ptserif-bold",
@@ -21,16 +20,12 @@ const defaultStyling = {
   },
 };
 
-const PersonalMoviesScreen = ({ navigation }) => {
-  const movies = useSelector((state) => state.watched.movies);
-
-  return <PersonalScreen data={movies} navigation={navigation} />;
+const PersonalMoviesScreen = () => {
+  return <PersonalScreen name="watchedMovie" />;
 };
 
-const PersonalTvScreen = ({ navigation }) => {
-  const series = useSelector((state) => state.watched.series);
-
-  return <PersonalScreen data={series} navigation={navigation} />;
+const PersonalTvScreen = () => {
+  return <PersonalScreen name="watchedTv" />;
 };
 
 const MovieStack = createNativeStackNavigator();

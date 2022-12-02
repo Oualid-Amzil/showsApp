@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import itemSlice from "./item";
-import watchedSlice from "./watched";
-import favoritesSlice from "./favorites";
+import watchedSlice from "./watched/watched";
+import favoritesSlice from "./favorites/favorites";
 import uiSlice from "./ui";
+import authSlice from "./auth/auth";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     watched: watchedSlice.reducer,
     favorites: favoritesSlice.reducer,
     ui: uiSlice.reducer,
+    auth: authSlice.reducer,
   },
 });
 

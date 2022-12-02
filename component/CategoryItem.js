@@ -7,6 +7,7 @@ import {
   TouchableNativeFeedback,
   Platform,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../constant/Colors";
 
 const CategoryItem = ({ navigation, request, label }) => {
@@ -19,14 +20,20 @@ const CategoryItem = ({ navigation, request, label }) => {
   return (
     <TouchableCmp
       onPress={() =>
-        navigation.navigate(`${label === "movies" ? "movies" : "series"}`, {
+        navigation.navigate(`${label === "movies" ? "movies" : "tv"}`, {
           url: request.url,
           name: request.name,
         })
       }
     >
       <View style={styles.wrapper}>
-        <Text style={styles.name}>{request.name}</Text>
+        <LinearGradient
+          colors={["#FECD70", "#FD841F"]}
+          locations={[0.4, 0.8]}
+          style={styles.gradient}
+        >
+          <Text style={styles.name}>{request.name}</Text>
+        </LinearGradient>
       </View>
     </TouchableCmp>
   );
@@ -34,26 +41,22 @@ const CategoryItem = ({ navigation, request, label }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: 150,
-    height: 150,
-    margin: 10,
+    width: "50%",
+    height: 170,
+  },
+  gradient: {
+    flex: 1,
     padding: 10,
-    shadowColor: "black",
-    shadowOpacity: 1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 10,
-    elevation: 10,
-    borderRadius: 20,
     backgroundColor: Colors.accentColor,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
-    borderWidth: 5,
+    borderWidth: 1,
     borderColor: "white",
     overflow: "hidden",
   },
   name: {
     fontFamily: "ptserif-bold",
-    fontSize: 20,
+    fontSize: 22,
   },
 });
 

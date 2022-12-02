@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -8,13 +9,13 @@ import MainScreen from "../screens/MainScreen";
 import MovieDetailsScreen from "../screens/MovieDetailsScreen";
 import TvDetailsScreen from "../screens/TvDetailsScreen";
 import MoviesCategoryScreen from "../screens/MoviesCategoryScreen";
-import SeriesCategoryScreen from "../screens/SeriesCategoryScreen";
+import TvCategoryScreen from "../screens/TvCategoryScreen";
 
 import Colors from "../constant/Colors";
 
 const defaultStyling = {
   headerStyle: {
-    backgroundColor: Colors.primaryColor,
+    backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
   },
   headerTitleStyle: {
     fontFamily: "ptserif-bold",
@@ -64,7 +65,7 @@ const TvNavigator = () => {
     <TvStack.Navigator screenOptions={defaultStyling}>
       <TvStack.Screen
         name="TvCategories"
-        component={SeriesCategoryScreen}
+        component={TvCategoryScreen}
         options={({ navigation }) => ({
           title: "Tv Categories",
           headerLeft: () => (
@@ -81,7 +82,7 @@ const TvNavigator = () => {
         })}
       />
       <TvStack.Screen
-        name="series"
+        name="tv"
         component={MainScreen}
         options={({ route }) => ({
           title: route.params.name,
@@ -122,10 +123,10 @@ const DiscoverNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="seriesTab"
+        name="tvTab"
         component={TvNavigator}
         options={{
-          tabBarLabel: "SERIES",
+          tabBarLabel: "TV",
           tabBarIcon: ({ color }) => (
             <Ionicons name="md-tv-outline" size={20} color={color} />
           ),

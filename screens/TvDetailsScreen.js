@@ -11,10 +11,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Ionicons } from "react-native-vector-icons";
 import instance from "../axios";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { uiActions } from "../store/ui";
-import { watchedActions } from "../store/watched";
-import { favoritesActions } from "../store/favorites";
+import { watchedActions } from "../store/watched/watched";
+import { favoritesActions } from "../store/favorites/favorites";
 import Colors from "../constant/Colors";
 
 const baseURL = "https://image.tmdb.org/t/p/original";
@@ -28,6 +29,7 @@ const TvDetailsScreen = () => {
   const [data, setData] = useState();
   const watchedSeries = useSelector((state) => state.watched.series);
   const favoritesSeries = useSelector((state) => state.favorites.series);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const [isWatched, setIsWatched] = useState(
     watchedSeries.find((item) => item.id === show.id) ? true : false
@@ -80,7 +82,9 @@ const TvDetailsScreen = () => {
   if (isLoading) {
     return (
       <View style={styles.screen}>
-        <ActivityIndicator size="large" color="blue" />
+        <LinearGradient colors={["#FD841F", "#FECD70"]} style={styles.gradient}>
+          <ActivityIndicator size="large" color="blue" />
+        </LinearGradient>
       </View>
     );
   }
@@ -88,7 +92,9 @@ const TvDetailsScreen = () => {
   if (error) {
     return (
       <View style={styles.screen}>
-        <Text style={styles.error}>{error}</Text>
+        <LinearGradient colors={["#FD841F", "#FECD70"]} style={styles.gradient}>
+          <Text style={styles.error}>{error}</Text>
+        </LinearGradient>
       </View>
     );
   }
@@ -101,30 +107,35 @@ const TvDetailsScreen = () => {
             source={{ uri: `${baseURL}${data?.backdrop_path}` }}
             style={styles.image}
           />
-          <Pressable
-            style={{
-              ...styles.eye,
-            }}
-            onPress={tvWatchedHandler}
-          >
-            <Ionicons
-              name={isWatched ? "md-eye" : "md-eye-outline"}
-              size={30}
-              color={isWatched ? Colors.accentColor : "black"}
-            />
-          </Pressable>
-          <Pressable
-            style={{
-              ...styles.heart,
-            }}
-            onPress={tvLovedHandler}
-          >
-            <Ionicons
-              name={isLoved ? "md-heart" : "md-heart-outline"}
-              size={30}
-              color={isLoved ? "red" : "black"}
-            />
-          </Pressable>
+          {isAuthenticated && (
+            <>
+              <Pressable
+                style={{
+                  ...styles.eye,
+                }}
+                onPress={tvWatchedHandler}
+              >
+                <Ionicons
+                  name={isWatched ? "md-eye" : "md-eye-off"}
+                  size={30}
+                  color="black"
+                  // color={isWatched ? Colors.primaryColor : "black"}
+                />
+              </Pressable>
+              <Pressable
+                style={{
+                  ...styles.heart,
+                }}
+                onPress={tvLovedHandler}
+              >
+                <Ionicons
+                  name={isLoved ? "md-heart" : "md-heart-outline"}
+                  size={30}
+                  color={isLoved ? "red" : "black"}
+                />
+              </Pressable>
+            </>
+          )}
         </View>
         <Text style={styles.title}>
           {data?.title || data?.name || data?.original_name}
@@ -133,7 +144,7 @@ const TvDetailsScreen = () => {
           Created By:{" "}
           <Text style={styles.child}>
             {" "}
-            {data?.created_by[0].name || "unknown"}
+            {data?.created_by[0]?.name || "unknown"}
           </Text>
         </Text>
         <Text style={styles.label}>
@@ -178,6 +189,9 @@ const TvDetailsScreen = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+  },
+  gradient: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -194,7 +208,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-    opacity: 0.8,
+    opacity: 0.7,
     objectFit: "cover",
   },
   title: {
@@ -202,6 +216,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     color: "black",
     textAlign: "center",
+    paddingHorizontal: 8,
     marginTop: 10,
     marginBottom: 20,
     color: "red",

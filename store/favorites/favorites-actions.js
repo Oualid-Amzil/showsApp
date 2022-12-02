@@ -1,14 +1,19 @@
 import axios from "axios";
 
-import { uiActions } from "./ui";
+import { uiActions } from "../ui";
 import { favoritesActions } from "./favorites";
 
 export const sendFavoritesData = (data) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
+
+    dispatch(uiActions.error(null));
     try {
       await axios({
         method: "put",
-        url: "https://discover-shows-app-default-rtdb.firebaseio.com/favorites.json",
+        url: `
+        https://shows-discover-default-rtdb.firebaseio.com/favorites/${userId}.json?auth=${token}`,
         data: {
           movies: data.movies,
           series: data.series,
@@ -21,12 +26,17 @@ export const sendFavoritesData = (data) => {
 };
 
 export const getFavoritesData = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
+
+    dispatch(uiActions.error(null));
     dispatch(uiActions.isLoading(true));
     try {
       const response = await axios({
         method: "get",
-        url: "https://discover-shows-app-default-rtdb.firebaseio.com/favorites.json",
+        url: `
+        https://shows-discover-default-rtdb.firebaseio.com/favorites/${userId}.json?auth=${token}`,
       });
 
       dispatch(

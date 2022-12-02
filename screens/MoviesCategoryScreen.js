@@ -1,21 +1,25 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { View, StyleSheet, ScrollView } from "react-native";
 
-import { getFavoritesData } from "../store/favorites-actions";
-import { getWatchedData } from "../store/watched-actions";
+import { getFavoritesData } from "../store/favorites/favorites-actions";
+import { getWatchedData } from "../store/watched/watched-actions";
 
 import CategoryItem from "../component/CategoryItem";
 import { MoviesRequests } from "../requests";
+
 import Colors from "../constant/Colors";
 
 const MoviesCategoryScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    dispatch(getWatchedData());
-    dispatch(getFavoritesData());
-  }, [dispatch]);
+    if (isAuthenticated) {
+      dispatch(getWatchedData());
+      dispatch(getFavoritesData());
+    }
+  }, [dispatch, isAuthenticated]);
 
   return (
     <ScrollView>
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+
     backgroundColor: Colors.primaryColor,
   },
 });

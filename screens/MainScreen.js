@@ -8,14 +8,12 @@ import {
   Pressable,
   ActivityIndicator,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 import instance from "../axios";
 
-import { getWatchedData, sendWatchedData } from "../store/watched-actions";
-import {
-  getFavoritesData,
-  sendFavoritesData,
-} from "../store/favorites-actions";
+import { sendWatchedData } from "../store/watched/watched-actions";
+import { sendFavoritesData } from "../store/favorites/favorites-actions";
 import { uiActions } from "../store/ui";
 import MovieItem from "../component/MovieItem";
 import Colors from "../constant/Colors";
@@ -29,7 +27,9 @@ const MainScreen = ({ navigation, route }) => {
   const error = useSelector((state) => state.ui.message);
   const [data, setData] = useState([]);
   const [page, setPage] = useState("");
+
   const URL = route.params.url;
+
   const watched = useSelector((state) => state.watched);
   const favorites = useSelector((state) => state.favorites);
 
@@ -71,7 +71,9 @@ const MainScreen = ({ navigation, route }) => {
   if (isLoading) {
     return (
       <View style={styles.screen}>
-        <ActivityIndicator size="large" color="blue" />
+        <LinearGradient colors={["#FD841F", "#FECD70"]} style={styles.gradient}>
+          <ActivityIndicator size="large" color="blue" />
+        </LinearGradient>
       </View>
     );
   }
@@ -79,7 +81,19 @@ const MainScreen = ({ navigation, route }) => {
   if (error) {
     return (
       <View style={styles.screen}>
-        <Text style={styles.error}>{error.message}</Text>
+        <LinearGradient colors={["#FD841F", "#FECD70"]} style={styles.gradient}>
+          <Text style={styles.error}>{error.message}</Text>
+        </LinearGradient>
+      </View>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <View style={styles.screen}>
+        <LinearGradient colors={["#FD841F", "#FECD70"]} style={styles.gradient}>
+          <Text>There is no content.</Text>
+        </LinearGradient>
       </View>
     );
   }
@@ -90,30 +104,44 @@ const MainScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={renderMovieItem}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        initialNumToRender={20}
-      />
-      <View style={styles.buttons}>
-        <Pressable style={styles.button} onPress={() => setPage("1")}>
-          <Text style={styles.number}>1</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => setPage("2")}>
-          <Text style={styles.number}>2</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => setPage("3")}>
-          <Text style={styles.number}>3</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => setPage("4")}>
-          <Text style={styles.number}>4</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={() => setPage("5")}>
-          <Text style={styles.number}>5</Text>
-        </Pressable>
-      </View>
+      <LinearGradient colors={["#FD841F", "#FECD70"]} style={styles.gradient}>
+        <FlatList
+          data={data}
+          renderItem={renderMovieItem}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          initialNumToRender={20}
+        />
+        <View style={styles.buttons}>
+          <Pressable style={styles.button} onPress={() => setPage("1")}>
+            <Text style={styles.number}>1</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => setPage("2")}>
+            <Text style={styles.number}>2</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => setPage("3")}>
+            <Text style={styles.number}>3</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => setPage("4")}>
+            <Text style={styles.number}>4</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => setPage("5")}>
+            <Text style={styles.number}>5</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => setPage("6")}>
+            <Text style={styles.number}>6</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => setPage("7")}>
+            <Text style={styles.number}>7</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => setPage("8")}>
+            <Text style={styles.number}>8</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => setPage("9")}>
+            <Text style={styles.number}>9</Text>
+          </Pressable>
+        </View>
+      </LinearGradient>
     </View>
   );
 };
@@ -121,14 +149,15 @@ const MainScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+  },
+  gradient: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingVertical: 20,
   },
   container: {
     flex: 1,
-    alignItems: "center",
-    backgroundColor: Colors.primaryColor,
-    paddingVertical: 20,
   },
   buttons: {
     flexDirection: "row",
@@ -137,9 +166,9 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: Colors.accentColor,
-    padding: 10,
+    padding: 8,
     borderRadius: 5,
-    marginHorizontal: 10,
+    marginRight: 7,
   },
   number: {
     fontSize: 18,

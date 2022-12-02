@@ -1,5 +1,4 @@
-import { processFontFamily } from "expo-font";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,10 +10,8 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { Ionicons } from "react-native-vector-icons";
 
-import { sendFavoritesData } from "../store/favorites-actions";
-import { sendWatchedData } from "../store/watched-actions";
-import { watchedActions } from "../store/watched";
-import { favoritesActions } from "../store/favorites";
+import { watchedActions } from "../store/watched/watched";
+import { favoritesActions } from "../store/favorites/favorites";
 import Colors from "../constant/Colors";
 
 const baseURL = "https://image.tmdb.org/t/p/original";
@@ -24,6 +21,7 @@ const MovieDetailsScreen = () => {
   const movie = useSelector((state) => state.item.item);
   const watchedMovies = useSelector((state) => state.watched.movies);
   const favoritesMovies = useSelector((state) => state.favorites.movies);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const [isWatched, setIsWatched] = useState(
     watchedMovies.find((item) => item.id === movie.id) ? true : false
@@ -58,30 +56,35 @@ const MovieDetailsScreen = () => {
             source={{ uri: `${baseURL}${movie.backdrop_path}` }}
             style={styles.image}
           />
-          <Pressable
-            style={{
-              ...styles.eye,
-            }}
-            onPress={movieWatchedHandler}
-          >
-            <Ionicons
-              name={isWatched ? "md-eye" : "md-eye-outline"}
-              size={35}
-              color={isWatched ? Colors.primaryColor : "black"}
-            />
-          </Pressable>
-          <Pressable
-            style={{
-              ...styles.heart,
-            }}
-            onPress={movieLovedHandler}
-          >
-            <Ionicons
-              name={isLoved ? "md-heart" : "md-heart-outline"}
-              size={35}
-              color={isLoved ? "red" : "black"}
-            />
-          </Pressable>
+          {isAuthenticated && (
+            <>
+              <Pressable
+                style={{
+                  ...styles.eye,
+                }}
+                onPress={movieWatchedHandler}
+              >
+                <Ionicons
+                  name={isWatched ? "md-eye" : "md-eye-off"}
+                  size={35}
+                  color="black"
+                  // color={isWatched ? Colors.primaryColor : "black"}
+                />
+              </Pressable>
+              <Pressable
+                style={{
+                  ...styles.heart,
+                }}
+                onPress={movieLovedHandler}
+              >
+                <Ionicons
+                  name={isLoved ? "md-heart" : "md-heart-outline"}
+                  size={35}
+                  color={isLoved ? "red" : "black"}
+                />
+              </Pressable>
+            </>
+          )}
         </View>
         <Text style={styles.title}>
           {movie?.title || movie?.name || movie?.original_name}
@@ -129,7 +132,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-    opacity: 0.8,
+    opacity: 0.7,
     objectFit: "cover",
   },
   title: {

@@ -32,12 +32,7 @@ const MovieItem = ({ item, navigation, length }) => {
 
   return (
     <TouchableCmp onPress={onPressHandler}>
-      <View
-        style={{
-          ...styles.imageWrapper,
-          width: `${length === 1 ? "60%" : "43%"}`,
-        }}
-      >
+      <View style={styles.imageWrapper}>
         <Image
           source={{ uri: `${baseURL}${item.poster_path}` }}
           style={styles.image}
@@ -49,6 +44,7 @@ const MovieItem = ({ item, navigation, length }) => {
 
 const styles = StyleSheet.create({
   imageWrapper: {
+    width: "43%",
     height: 300,
     borderRadius: 20,
     objectFit: "contain",

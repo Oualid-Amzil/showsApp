@@ -1,7 +1,6 @@
 import { Provider } from "react-redux";
-
-import MainNavigator from "./navigation/MainNavigation";
 import { useFonts } from "expo-font";
+import MainNavigator from "./navigation/MainNavigation";
 
 import store from "./store";
 
@@ -14,7 +13,7 @@ export default function App() {
   });
 
   if (!loaded) {
-    return null;
+    return;
   }
 
   return (

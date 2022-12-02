@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { View, StyleSheet, ScrollView } from "react-native";
 
-import { getWatchedData } from "../store/watched-actions";
-import { getFavoritesData } from "../store/favorites-actions";
+import { getWatchedData } from "../store/watched/watched-actions";
+import { getFavoritesData } from "../store/favorites/favorites-actions";
 import CategoryItem from "../component/CategoryItem";
 import { TvRequests } from "../requests";
 import Colors from "../constant/Colors";
 
-const SeriesCategoryScreen = ({ navigation }) => {
+const TvCategoryScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,9 +39,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
     backgroundColor: Colors.primaryColor,
   },
 });
 
-export default SeriesCategoryScreen;
+export default TvCategoryScreen;
