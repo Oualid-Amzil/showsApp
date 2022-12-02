@@ -4,6 +4,8 @@ import axios from "axios";
 import { uiActions } from "../ui";
 import { authActions } from "./auth";
 
+import { PROJECT_KEY } from "../../apiKeys";
+
 let timer;
 
 export const signUp = (email, password, navigation) => {
@@ -13,7 +15,7 @@ export const signUp = (email, password, navigation) => {
     try {
       const response = await axios({
         method: "post",
-        url: "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC3U_hmcWeKOtAMDdXZR8-WzGplbnP9QZQ",
+        url: `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${PROJECT_KEY}`,
         data: {
           email: email,
           password: password,
@@ -65,7 +67,7 @@ export const signIn = (email, password, navigation) => {
     try {
       const response = await axios({
         method: "post",
-        url: "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC3U_hmcWeKOtAMDdXZR8-WzGplbnP9QZQ",
+        url: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${PROJECT_KEY}`,
         data: {
           email: email,
           password: password,

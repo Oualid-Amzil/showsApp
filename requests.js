@@ -1,4 +1,4 @@
-import API_KEY from "./apiKey";
+import { API_KEY } from "./apiKeys";
 
 export const MoviesRequests = [
   {
