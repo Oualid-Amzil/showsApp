@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   Platform,
+  Dimensions,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../constant/Colors";
@@ -42,7 +43,7 @@ const CategoryItem = ({ navigation, request, label }) => {
 const styles = StyleSheet.create({
   wrapper: {
     width: "50%",
-    height: 170,
+    height: Dimensions.get("window").height / 4.5,
   },
   gradient: {
     flex: 1,
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: "ptserif-bold",
-    fontSize: 22,
+    fontSize: Dimensions.get("window").height > 1920 ? 22 : 20,
   },
 });
 

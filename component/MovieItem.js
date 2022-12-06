@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableNativeFeedback,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { useDispatch } from "react-redux";
 
@@ -45,7 +46,7 @@ const MovieItem = ({ item, navigation, length }) => {
 const styles = StyleSheet.create({
   imageWrapper: {
     width: "43%",
-    height: 300,
+    height: Dimensions.get("window").height / 2.5,
     borderRadius: 20,
     objectFit: "contain",
     overflow: "hidden",

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   Pressable,
+  Dimensions,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { Ionicons } from "react-native-vector-icons";
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     width: "100%",
-    height: 300,
+    height: Dimensions.get("window").height / 2.6,
     objectFit: "cover",
     position: "relative",
   },
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   content: {
-    marginVertical: 20,
+    marginVertical: Dimensions.get("window").height > 1920 ? 20 : 12,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     fontFamily: "abissinicaSIL-regular",
     lineHeight: 28,
     paddingHorizontal: 25,
-    paddingVertical: 10,
+    paddingVertical: Dimensions.get("window").height > 1920 ? 10 : 5,
     color: "black",
     textAlign: "justify",
   },

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Platform,
   Pressable,
+  Dimensions,
 } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
 
   imageWrraper: {
     width: "38%",
-    height: 150,
+    height: Dimensions.get("window").height / 5,
     objectFit: "cover",
     overflow: "hidden",
   },
