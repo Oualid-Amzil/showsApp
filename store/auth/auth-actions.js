@@ -35,10 +35,10 @@ export const signUp = (email, password, navigation) => {
         new Date().getTime() + parseInt(response.data.expiresIn) * 1000
       );
 
-      // timer = setTimeout(async () => {
-      //   await removeDataFromStorage();
-      //   dispatch(authActions.logout());
-      // }, expirationDate);
+      timer = setTimeout(async () => {
+        await removeDataFromStorage();
+        dispatch(authActions.logout());
+      }, expirationDate);
 
       await saveDataToStorage(
         response.data.idToken,
@@ -87,10 +87,10 @@ export const signIn = (email, password, navigation) => {
         new Date().getTime() + parseInt(response.data.expiresIn) * 1000
       );
 
-      // timer = setTimeout(async () => {
-      //   await removeDataFromStorage();
-      //   dispatch(authActions.logout());
-      // }, expirationDate);
+      timer = setTimeout(async () => {
+        await removeDataFromStorage();
+        dispatch(authActions.logout());
+      }, expirationDate);
 
       await saveDataToStorage(
         response.data.idToken,
@@ -116,7 +116,7 @@ export const signIn = (email, password, navigation) => {
 
 export const Logout = () => {
   return async (dispatch) => {
-    // clearTimeout(timer);
+    clearTimeout(timer);
 
     await removeDataFromStorage();
     dispatch(authActions.logout());

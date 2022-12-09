@@ -5,8 +5,10 @@ import {
   Text,
   StyleSheet,
   FlatList,
+  ScrollView,
   Pressable,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -113,33 +115,62 @@ const MainScreen = ({ navigation, route }) => {
           initialNumToRender={20}
         />
         <View style={styles.buttons}>
-          <Pressable style={styles.button} onPress={() => setPage("1")}>
-            <Text style={styles.number}>1</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => setPage("2")}>
-            <Text style={styles.number}>2</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => setPage("3")}>
-            <Text style={styles.number}>3</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => setPage("4")}>
-            <Text style={styles.number}>4</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => setPage("5")}>
-            <Text style={styles.number}>5</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => setPage("6")}>
-            <Text style={styles.number}>6</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => setPage("7")}>
-            <Text style={styles.number}>7</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => setPage("8")}>
-            <Text style={styles.number}>8</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => setPage("9")}>
-            <Text style={styles.number}>9</Text>
-          </Pressable>
+          <ScrollView horizontal={true}>
+            <Pressable style={styles.button} onPress={() => setPage("1")}>
+              <Text style={styles.number}>1</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("2")}>
+              <Text style={styles.number}>2</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("3")}>
+              <Text style={styles.number}>3</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("4")}>
+              <Text style={styles.number}>4</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("5")}>
+              <Text style={styles.number}>5</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("6")}>
+              <Text style={styles.number}>6</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("7")}>
+              <Text style={styles.number}>7</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("8")}>
+              <Text style={styles.number}>8</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("9")}>
+              <Text style={styles.number}>9</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("10")}>
+              <Text style={styles.number}>10</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("11")}>
+              <Text style={styles.number}>11</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("12")}>
+              <Text style={styles.number}>12</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("13")}>
+              <Text style={styles.number}>13</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("14")}>
+              <Text style={styles.number}>14</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("15")}>
+              <Text style={styles.number}>15</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("16")}>
+              <Text style={styles.number}>16</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("17")}>
+              <Text style={styles.number}>17</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={() => setPage("18")}>
+              <Text style={styles.number}>18</Text>
+            </Pressable>
+          </ScrollView>
         </View>
       </LinearGradient>
     </View>
@@ -154,7 +185,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 20,
+    paddingVertical: Dimensions.get("window").height > 1920 ? 20 : 15,
   },
   container: {
     flex: 1,
@@ -163,6 +194,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 10,
     paddingBottom: 0,
+    width: "90%",
   },
   button: {
     backgroundColor: Colors.accentColor,

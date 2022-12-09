@@ -19,20 +19,20 @@ const FirstScreen = (props) => {
       }
       const transformeData = JSON.parse(userData);
 
-      // const { token, userId, expiryDate } = transformeData;
-      // const expirationDate = new Date(expiryDate);
+      const { token, userId, expiryDate } = transformeData;
+      const expirationDate = new Date(expiryDate);
 
-      // if (expirationDate <= new Date() || !token || !userId) {
-      //   props.navigation.navigate("home");
-      //   return;
-      // }
-
-      const { token, userId } = transformeData;
-
-      if (!token || !userId) {
+      if (expirationDate <= new Date() || !token || !userId) {
         props.navigation.navigate("home");
         return;
       }
+
+      // const { token, userId } = transformeData;
+
+      // if (!token || !userId) {
+      //   props.navigation.navigate("home");
+      //   return;
+      // }
 
       dispatch(
         authActions.authentication({ token, userId, isAuthenticated: true })
