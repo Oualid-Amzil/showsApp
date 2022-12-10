@@ -5,11 +5,10 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Ionicons } from "react-native-vector-icons";
 
 import CustomHeaderButton from "../component/CustomHeaderButton";
-import MainScreen from "../screens/MainScreen";
+import MoviesScreen from "../screens/MoviesScreen";
+import TvScreen from "../screens/TvScreen";
 import MovieDetailsScreen from "../screens/MovieDetailsScreen";
 import TvDetailsScreen from "../screens/TvDetailsScreen";
-import MoviesCategoryScreen from "../screens/MoviesCategoryScreen";
-import TvCategoryScreen from "../screens/TvCategoryScreen";
 
 import Colors from "../constant/Colors";
 
@@ -29,10 +28,9 @@ const MoviesNavigator = () => {
   return (
     <MovieStack.Navigator screenOptions={defaultStyling}>
       <MovieStack.Screen
-        name="MovieCategories"
-        component={MoviesCategoryScreen}
+        name="Movie"
+        component={MoviesScreen}
         options={({ navigation }) => ({
-          title: "Movie Categories",
           headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
               <Item
@@ -44,13 +42,6 @@ const MoviesNavigator = () => {
               />
             </HeaderButtons>
           ),
-        })}
-      />
-      <MovieStack.Screen
-        name="movies"
-        component={MainScreen}
-        options={({ route }) => ({
-          title: route.params.name,
         })}
       />
       <MovieStack.Screen name="details" component={MovieDetailsScreen} />
@@ -64,10 +55,9 @@ const TvNavigator = () => {
   return (
     <TvStack.Navigator screenOptions={defaultStyling}>
       <TvStack.Screen
-        name="TvCategories"
-        component={TvCategoryScreen}
+        name="Tv"
+        component={TvScreen}
         options={({ navigation }) => ({
-          title: "Tv Categories",
           headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
               <Item
@@ -79,13 +69,6 @@ const TvNavigator = () => {
               />
             </HeaderButtons>
           ),
-        })}
-      />
-      <TvStack.Screen
-        name="tv"
-        component={MainScreen}
-        options={({ route }) => ({
-          title: route.params.name,
         })}
       />
       <TvStack.Screen name="details" component={TvDetailsScreen} />

@@ -17,20 +17,24 @@ import instance from "../axios";
 import { sendWatchedData } from "../store/watched/watched-actions";
 import { sendFavoritesData } from "../store/favorites/favorites-actions";
 import { uiActions } from "../store/ui";
+import CategoryItem from "../component/CategoryItem";
 import MovieItem from "../component/MovieItem";
+
+import { TvRequests, Pages } from "../requests";
+
 import Colors from "../constant/Colors";
 
 let isInitial = true;
 
-const MainScreen = ({ navigation, route }) => {
+const TvScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.ui.isLoading);
   const error = useSelector((state) => state.ui.message);
   const [data, setData] = useState([]);
   const [page, setPage] = useState("");
-
-  const URL = route.params.url;
+  const [URL, setUrl] = useState(TvRequests[0].url);
+  const [label, setLabel] = useState(TvRequests[0].name);
 
   const watched = useSelector((state) => state.watched);
   const favorites = useSelector((state) => state.favorites);
@@ -68,7 +72,10 @@ const MainScreen = ({ navigation, route }) => {
     };
 
     fetchMovies();
-  }, [page]);
+    navigation.setOptions({
+      title: label,
+    });
+  }, [page, URL]);
 
   if (isLoading) {
     return (
@@ -84,6 +91,22 @@ const MainScreen = ({ navigation, route }) => {
     return (
       <View style={styles.screen}>
         <LinearGradient colors={["#FD841F", "#FECD70"]} style={styles.gradient}>
+          <View style={styles.categories}>
+            <ScrollView horizontal={true}>
+              {TvRequests.map((item) => (
+                <CategoryItem
+                  name={item.name}
+                  key={item.id}
+                  navigation={navigation}
+                  pressHandle={() => {
+                    setUrl(item.url);
+                    setLabel(item.name);
+                  }}
+                  label="movies"
+                />
+              ))}
+            </ScrollView>
+          </View>
           <Text style={styles.error}>{error.message}</Text>
         </LinearGradient>
       </View>
@@ -94,6 +117,22 @@ const MainScreen = ({ navigation, route }) => {
     return (
       <View style={styles.screen}>
         <LinearGradient colors={["#FD841F", "#FECD70"]} style={styles.gradient}>
+          <View style={styles.categories}>
+            <ScrollView horizontal={true}>
+              {TvRequests.map((item) => (
+                <CategoryItem
+                  name={item.name}
+                  key={item.id}
+                  navigation={navigation}
+                  pressHandle={() => {
+                    setUrl(item.url);
+                    setLabel(item.name);
+                  }}
+                  label="movies"
+                />
+              ))}
+            </ScrollView>
+          </View>
           <Text>There is no content.</Text>
         </LinearGradient>
       </View>
@@ -107,6 +146,22 @@ const MainScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <LinearGradient colors={["#FD841F", "#FECD70"]} style={styles.gradient}>
+        <View style={styles.categories}>
+          <ScrollView horizontal={true}>
+            {TvRequests.map((item) => (
+              <CategoryItem
+                name={item.name}
+                key={item.id}
+                navigation={navigation}
+                pressHandle={() => {
+                  setUrl(item.url);
+                  setLabel(item.name);
+                }}
+                label="movies"
+              />
+            ))}
+          </ScrollView>
+        </View>
         <FlatList
           data={data}
           renderItem={renderMovieItem}
@@ -116,60 +171,15 @@ const MainScreen = ({ navigation, route }) => {
         />
         <View style={styles.buttons}>
           <ScrollView horizontal={true}>
-            <Pressable style={styles.button} onPress={() => setPage("1")}>
-              <Text style={styles.number}>1</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("2")}>
-              <Text style={styles.number}>2</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("3")}>
-              <Text style={styles.number}>3</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("4")}>
-              <Text style={styles.number}>4</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("5")}>
-              <Text style={styles.number}>5</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("6")}>
-              <Text style={styles.number}>6</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("7")}>
-              <Text style={styles.number}>7</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("8")}>
-              <Text style={styles.number}>8</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("9")}>
-              <Text style={styles.number}>9</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("10")}>
-              <Text style={styles.number}>10</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("11")}>
-              <Text style={styles.number}>11</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("12")}>
-              <Text style={styles.number}>12</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("13")}>
-              <Text style={styles.number}>13</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("14")}>
-              <Text style={styles.number}>14</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("15")}>
-              <Text style={styles.number}>15</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("16")}>
-              <Text style={styles.number}>16</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("17")}>
-              <Text style={styles.number}>17</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={() => setPage("18")}>
-              <Text style={styles.number}>18</Text>
-            </Pressable>
+            {Pages.map((page) => (
+              <Pressable
+                style={styles.button}
+                key={page.id}
+                onPress={() => setPage(page.number)}
+              >
+                <Text style={styles.number}>{page.number}</Text>
+              </Pressable>
+            ))}
           </ScrollView>
         </View>
       </LinearGradient>
@@ -185,16 +195,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: Dimensions.get("window").height > 1920 ? 20 : 15,
+    paddingVertical: Dimensions.get("window").height > 1920 ? 10 : 6,
   },
   container: {
     flex: 1,
+    justifyContent: "center",
+  },
+  categories: {
+    flexDirection: "row",
+    paddingTop: 5,
+    paddingBottom: 10,
+    width: "98%",
   },
   buttons: {
     flexDirection: "row",
     paddingTop: 10,
     paddingBottom: 0,
-    width: "90%",
+    width: "98%",
   },
   button: {
     backgroundColor: Colors.accentColor,
@@ -213,4 +230,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainScreen;
+export default TvScreen;

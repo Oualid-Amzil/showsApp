@@ -8,10 +8,10 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+
 import Colors from "../constant/Colors";
 
-const CategoryItem = ({ navigation, request, label }) => {
+const CategoryItem = ({ navigation, name, label, pressHandle }) => {
   let TouchableCmp = TouchableOpacity;
 
   if (Platform.OS === "android" && Platform.Version >= 21) {
@@ -19,22 +19,9 @@ const CategoryItem = ({ navigation, request, label }) => {
   }
 
   return (
-    <TouchableCmp
-      onPress={() =>
-        navigation.navigate(`${label === "movies" ? "movies" : "tv"}`, {
-          url: request.url,
-          name: request.name,
-        })
-      }
-    >
+    <TouchableCmp onPress={() => pressHandle()}>
       <View style={styles.wrapper}>
-        <LinearGradient
-          colors={["#FECD70", "#FD841F"]}
-          locations={[0.4, 0.8]}
-          style={styles.gradient}
-        >
-          <Text style={styles.name}>{request.name}</Text>
-        </LinearGradient>
+        <Text style={styles.name}>{name}</Text>
       </View>
     </TouchableCmp>
   );
@@ -42,22 +29,19 @@ const CategoryItem = ({ navigation, request, label }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: "50%",
-    height: Dimensions.get("window").height / 4.5,
-  },
-  gradient: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: Colors.accentColor,
-    justifyContent: "flex-end",
+    borderRadius: 10,
+    justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "white",
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+    marginRight: 6,
+    backgroundColor: Colors.primaryColor,
     overflow: "hidden",
   },
+
   name: {
     fontFamily: "ptserif-bold",
-    fontSize: Dimensions.get("window").height > 1920 ? 22 : 20,
+    fontSize: Dimensions.get("window").height > 1920 ? 19 : 17,
   },
 });
 
