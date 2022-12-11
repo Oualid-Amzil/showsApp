@@ -14,8 +14,14 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import instance from "../axios";
 
-import { sendWatchedData } from "../store/watched/watched-actions";
-import { sendFavoritesData } from "../store/favorites/favorites-actions";
+import {
+  sendWatchedData,
+  getWatchedData,
+} from "../store/watched/watched-actions";
+import {
+  sendFavoritesData,
+  getFavoritesData,
+} from "../store/favorites/favorites-actions";
 import { uiActions } from "../store/ui";
 import CategoryItem from "../component/CategoryItem";
 import MovieItem from "../component/MovieItem";
@@ -28,16 +34,23 @@ let isInitial = true;
 
 const MoviesScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const isLoading = useSelector((state) => state.ui.isLoading);
   const error = useSelector((state) => state.ui.message);
   const [data, setData] = useState([]);
-  const [page, setPage] = useState("");
+  const [page, setPage] = useState("1");
   const [URL, setUrl] = useState(MoviesRequests[0].url);
   const [label, setLabel] = useState(MoviesRequests[0].name);
 
   const watched = useSelector((state) => state.watched);
   const favorites = useSelector((state) => state.favorites);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getWatchedData());
+      dispatch(getFavoritesData());
+    }
+  }, [dispatch, isAuthenticated]);
 
   useEffect(() => {
     if (isInitial) {
@@ -101,6 +114,7 @@ const MoviesScreen = ({ navigation }) => {
                   pressHandle={() => {
                     setUrl(item.url);
                     setLabel(item.name);
+                    setPage("1");
                   }}
                   label="movies"
                 />
@@ -133,7 +147,7 @@ const MoviesScreen = ({ navigation }) => {
               ))}
             </ScrollView>
           </View>
-          <Text>There is no content.</Text>
+          <Text style={styles.text}>There is no content.</Text>
         </LinearGradient>
       </View>
     );
@@ -171,13 +185,15 @@ const MoviesScreen = ({ navigation }) => {
         />
         <View style={styles.buttons}>
           <ScrollView horizontal={true}>
-            {Pages.map((page) => (
+            {Pages.map((item) => (
               <Pressable
-                style={styles.button}
-                key={page.id}
-                onPress={() => setPage(page.number)}
+                style={
+                  item.number === page ? styles.focusedButton : styles.button
+                }
+                key={item.id}
+                onPress={() => setPage(item.number)}
               >
-                <Text style={styles.number}>{page.number}</Text>
+                <Text style={styles.number}>{item.number}</Text>
               </Pressable>
             ))}
           </ScrollView>
@@ -193,19 +209,24 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
+    position: "relative",
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: Dimensions.get("window").height > 1920 ? 10 : 6,
+    paddingTop: 45,
+    paddingBottom: 10,
   },
   container: {
     flex: 1,
-    justifyContent: "center",
   },
   categories: {
     flexDirection: "row",
     paddingTop: 5,
     paddingBottom: 10,
     width: "98%",
+    position: "absolute",
+    top: 0,
+    left: 5,
+    zIndex: 10,
   },
   buttons: {
     flexDirection: "row",
@@ -219,12 +240,24 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 7,
   },
+  focusedButton: {
+    backgroundColor: Colors.primaryColor,
+    padding: 8,
+    borderRadius: 5,
+    marginRight: 7,
+    borderWidth: 1,
+    borderColor: "black",
+  },
   number: {
     fontSize: 18,
     color: "black",
   },
   error: {
     color: "red",
+    fontFamily: "lato-bold",
+    fontSize: 20,
+  },
+  text: {
     fontFamily: "lato-bold",
     fontSize: 20,
   },

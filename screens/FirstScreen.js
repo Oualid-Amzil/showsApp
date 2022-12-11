@@ -27,15 +27,15 @@ const FirstScreen = (props) => {
         return;
       }
 
-      // const { token, userId } = transformeData;
-
-      // if (!token || !userId) {
-      //   props.navigation.navigate("home");
-      //   return;
-      // }
+      const expirationTime = expirationDate.getTime() - new Date().getTime();
 
       dispatch(
-        authActions.authentication({ token, userId, isAuthenticated: true })
+        authActions.authentication({
+          token,
+          userId,
+          expirationTime,
+          isAuthenticated: true,
+        })
       );
       props.navigation.navigate("home");
     };

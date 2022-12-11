@@ -27,6 +27,7 @@ export const signUp = (email, password, navigation) => {
         authActions.authentication({
           token: response.data.idToken,
           userId: response.data.localId,
+          expirationTime: parseInt(response.data.expiresIn) * 1000,
           isAuthenticated: true,
         })
       );
@@ -35,10 +36,12 @@ export const signUp = (email, password, navigation) => {
         new Date().getTime() + parseInt(response.data.expiresIn) * 1000
       );
 
+      const expirationTime = expirationDate.getTime();
+
       timer = setTimeout(async () => {
         await removeDataFromStorage();
         dispatch(authActions.logout());
-      }, expirationDate);
+      }, expirationTime);
 
       await saveDataToStorage(
         response.data.idToken,
@@ -79,6 +82,7 @@ export const signIn = (email, password, navigation) => {
         authActions.authentication({
           token: response.data.idToken,
           userId: response.data.localId,
+          expirationTime: parseInt(response.data.expiresIn) * 1000,
           isAuthenticated: true,
         })
       );
@@ -87,10 +91,12 @@ export const signIn = (email, password, navigation) => {
         new Date().getTime() + parseInt(response.data.expiresIn) * 1000
       );
 
+      const expirationTime = expirationDate.getTime();
+
       timer = setTimeout(async () => {
         await removeDataFromStorage();
         dispatch(authActions.logout());
-      }, expirationDate);
+      }, expirationTime);
 
       await saveDataToStorage(
         response.data.idToken,
